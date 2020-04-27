@@ -36,10 +36,9 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
       return res.status(400).send({ message: 'Image url is required or malformed' });
 
     }
-    
     const filteredpath= await filterImageFromURL(imageUrl)
     res.on('finish', () => deleteLocalFiles([filteredpath]));
-    res.status(201).sendFile(filteredpath); 
+    res.status(200).sendFile(filteredpath); 
     
   } );
 
