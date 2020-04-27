@@ -30,7 +30,19 @@ import {filterImageFromURL, deleteLocalFiles} from './util/util';
   /**************************************************************************** */
 
   //! END @TODO1
-  
+  app.get( "/filteredimage", async ( req, res ) => {
+    let imageUrl  = req.query.image_url;
+    if (!imageUrl){
+      return res.status(400).send({ message: 'Image url is required or malformed' });
+
+    }
+    
+    const filteredpath= await filterImageFromURL(imageUrl)
+    res.on('finish', () => deleteLocalFiles([filteredpath]));
+    res.status(201).sendFile(filteredpath); 
+    
+  } );
+
   // Root Endpoint
   // Displays a simple message to the user
   app.get( "/", async ( req, res ) => {
